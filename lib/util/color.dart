@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-const MaterialColor white = MaterialColor(0xffffff, <int, Color>{
-  50: Color(0x00ffffff),
-  100: Color(0x00ffffff),
-  200: Color(0x00ffffff),
-  300: Color(0x00ffffff),
-  400: Color(0x00ffffff),
-  500: Color(0x00ffffff),
-  600: Color(0x00ffffff),
-  700: Color(0x00ffffff),
-  800: Color(0x00ffffff),
-  900: Color(0x00ffffff),
+// Use opaque white (alpha FF) for primarySwatch; previous values used 0x00ffffff
+// which is fully transparent, causing AppBar/background to appear absent.
+const MaterialColor white = MaterialColor(0xFFFFFFFF, <int, Color>{
+  50: Color(0xFFFFFFFF),
+  100: Color(0xFFFFFFFF),
+  200: Color(0xFFFFFFFF),
+  300: Color(0xFFFFFFFF),
+  400: Color(0xFFFFFFFF),
+  500: Color(0xFFFFFFFF),
+  600: Color(0xFFFFFFFF),
+  700: Color(0xFFFFFFFF),
+  800: Color(0xFFFFFFFF),
+  900: Color(0xFFFFFFFF),
 });
 
 ///主色调
