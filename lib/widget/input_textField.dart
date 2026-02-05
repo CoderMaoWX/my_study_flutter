@@ -30,7 +30,7 @@ class _LoginInputState extends State<LoginInput> {
     super.initState();
     _focusNode.addListener(() {
       print("has focus: ${_focusNode.hasFocus}");
-      if (widget.focusChanged != null && _focusNode.hasFocus) {
+      if (_focusNode.hasFocus) {
         widget.focusChanged(widget.obscureText);
       }
     });
@@ -73,7 +73,7 @@ class _LoginInputState extends State<LoginInput> {
 
   _input() {
     return Expanded(
-        child: Container(
+        child: SizedBox(
       height: 40,
       child: TextField(
           focusNode: _focusNode,

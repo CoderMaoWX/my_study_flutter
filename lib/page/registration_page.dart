@@ -131,7 +131,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void checkParams() {
-    String? tips = null;
+    String? tips;
     if (password != rePassword) {
       tips = "两次密码不一致";
     } else if (orderId.length != 4) {
@@ -154,13 +154,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       if (result["code"] == 0) {
         print("注册成功");
         showToast("注册成功");
-        if (widget.onJumpToLogin != null) {
-          widget.onJumpToLogin();
-        } else {
-          print(result["msg"]);
-          showWarnToast(result["msg"]);
-        }
-      }
+        widget.onJumpToLogin();
+            }
     } on NeedAuth catch (e) {
       print('NeedAuth: ${e.message} ');
       showWarnToast(e.message);

@@ -14,7 +14,7 @@ class HiNet {
 
   Future fire(BaseRequest request) async {
     HiNetResponse? response;
-    var error;
+    Object? error;
     try {
       response = await send(request);
     } on HiNetError catch (e) {

@@ -44,7 +44,7 @@ abstract class BaseRequest {
 
   bool needLogin();
 
-  Map<String, String> params = Map();
+  Map<String, String> params = {};
   //添加参数
   BaseRequest add(String k, Object v) {
     params[k] = v.toString();

@@ -9,7 +9,7 @@ class DioAdapter extends HiNetAdapter {
   @override
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
     var response, options = Options(headers: request.header);
-    var error;
+    DioException? error;
 
     try {
       if (request.httpMethod() == HttpMethod.GET) {
@@ -29,16 +29,14 @@ class DioAdapter extends HiNetAdapter {
       } else if (request.httpMethod() == HttpMethod.HEAD) {
         response = await Dio().head(request.url(), options: options);
       } else if (request.httpMethod() == HttpMethod.OPTIONS) {
-        response = await Dio().options;
+        response = Dio().options;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       error = e;
       response = e.response;
     }
-    if (error != null) {
-      throw HiNetError(response?.statusCode ?? -1, error.toString(),
-          data: await buildRes(response, request));
-    }
+    throw HiNetError(response?.statusCode ?? -1, error.toString() ?? "",
+        data: await buildRes(response, request));
     return buildRes(response, request);
   }
 

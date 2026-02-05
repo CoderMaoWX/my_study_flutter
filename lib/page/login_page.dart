@@ -10,7 +10,10 @@ import '../util/string_util.dart';
 import '../util/toast.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final VoidCallback onSuccess;
+  final VoidCallback onJumpRegistration;
+  const LoginPage(
+      {super.key, required this.onSuccess, required this.onJumpRegistration});
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -24,7 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbar("密码登录", "注册", () {}),
+      appBar: appbar("密码登录", "注册", () {
+        widget.onJumpRegistration();
+      }),
       body: Container(
         child: ListView(
           children: [
@@ -70,18 +75,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void checkParams() {
-    String? tips = null;
-    if (userName == null) {
-      tips = "账号不能为空";
-    } else if (password == null) {
-      tips = "密码不能为空";
-    }
-    if (tips != null) {
-      print(tips);
-      showWarnToast(tips);
-    } else {
-      _requestLogin();
-    }
+    String? tips;
+    _requestLogin();
   }
 
   ///登录接口
@@ -91,6 +86,9 @@ class _LoginPageState extends State<LoginPage> {
       if (result["code"] == 0) {
         print("登录成功");
         showToast("登录成功");
+        if (widget.onSuccess != null) {
+          widget.onSuccess();
+        }
       } else {
         print(result);
         showWarnToast(result["msg"]);

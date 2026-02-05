@@ -49,7 +49,7 @@ class TestMo {
     desc = json['desc'];
     view = json['view'];
     duration = json['duration'];
-    owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
+    owner = json['owner'] != null ? Owner.fromJson(json['owner']) : null;
     reply = json['reply'];
     favorite = json['favorite'];
     like = json['like'];
@@ -60,27 +60,27 @@ class TestMo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vid'] = this.vid;
-    data['title'] = this.title;
-    data['tname'] = this.tname;
-    data['url'] = this.url;
-    data['cover'] = this.cover;
-    data['pubdate'] = this.pubdate;
-    data['desc'] = this.desc;
-    data['view'] = this.view;
-    data['duration'] = this.duration;
-    if (this.owner != null) {
-      data['owner'] = this.owner!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['vid'] = vid;
+    data['title'] = title;
+    data['tname'] = tname;
+    data['url'] = url;
+    data['cover'] = cover;
+    data['pubdate'] = pubdate;
+    data['desc'] = desc;
+    data['view'] = view;
+    data['duration'] = duration;
+    if (owner != null) {
+      data['owner'] = owner!.toJson();
     }
-    data['reply'] = this.reply;
-    data['favorite'] = this.favorite;
-    data['like'] = this.like;
-    data['coin'] = this.coin;
-    data['share'] = this.share;
-    data['createTime'] = this.createTime;
-    data['size'] = this.size;
+    data['reply'] = reply;
+    data['favorite'] = favorite;
+    data['like'] = like;
+    data['coin'] = coin;
+    data['share'] = share;
+    data['createTime'] = createTime;
+    data['size'] = size;
     return data;
   }
 }
@@ -99,10 +99,10 @@ class Owner {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['face'] = this.face;
-    data['fans'] = this.fans;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['face'] = face;
+    data['fans'] = fans;
     return data;
   }
 }
