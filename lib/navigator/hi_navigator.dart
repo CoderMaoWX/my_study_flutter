@@ -46,3 +46,39 @@ class RouteStatusInfo {
 
   RouteStatusInfo({required this.routeStatus, required this.page});
 }
+
+class HiNavigator extends _RouteJumpListener {
+  static HiNavigator? _instance;
+
+  HiNavigator._();
+
+  RouteJumpListener? _jumpListener;
+  RouteStatus? _routeStatus;
+
+  static HiNavigator getInstance() {
+    _instance ??= HiNavigator._();
+    return _instance!;
+  }
+
+  void registerRouteJump(RouteJumpListener listener) {
+    this._jumpListener = listener;
+  }
+
+  @override
+  void onJump(RouteStatus routeStatus, {Map? args}) {
+    // TODO: implement onJump
+    _jumpListener?.onJumpTo(routeStatus, args: args);
+  }
+}
+
+abstract class _RouteJumpListener {
+  void onJump(RouteStatus routeStatus, {Map args});
+}
+
+typedef OnJumpTo = void Function(RouteStatus routeStatus, {Map? args});
+
+class RouteJumpListener {
+  final OnJumpTo onJumpTo;
+
+  RouteJumpListener({required this.onJumpTo});
+}

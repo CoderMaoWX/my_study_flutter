@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_study_flutter/navigator/hi_navigator.dart';
 import 'package:my_study_flutter/page/login_effect.dart';
 import 'package:my_study_flutter/widget/appbar.dart';
 import 'package:my_study_flutter/widget/input_textField.dart';
@@ -10,10 +11,7 @@ import '../util/string_util.dart';
 import '../util/toast.dart';
 
 class LoginPage extends StatefulWidget {
-  final VoidCallback onSuccess;
-  final VoidCallback onJumpRegistration;
-  const LoginPage(
-      {super.key, required this.onSuccess, required this.onJumpRegistration});
+  const LoginPage({super.key});
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -28,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar("密码登录", "注册", () {
-        widget.onJumpRegistration();
+        HiNavigator.getInstance().onJump(RouteStatus.registration);
       }),
       body: Container(
         child: ListView(
@@ -86,9 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       if (result["code"] == 0) {
         print("登录成功");
         showToast("登录成功");
-        if (widget.onSuccess != null) {
-          widget.onSuccess();
-        }
+        HiNavigator.getInstance().onJump(RouteStatus.home);
       } else {
         print(result);
         showWarnToast(result["msg"]);

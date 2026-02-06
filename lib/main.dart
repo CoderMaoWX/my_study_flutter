@@ -45,7 +45,16 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
-  BiliRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>();
+  BiliRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
+    HiNavigator.getInstance().registerRouteJump(
+        RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map? args}) {
+      _routeStatus = routeStatus;
+      if (routeStatus == RouteStatus.detail) {
+        this.videoModel = args!['videoMo'];
+      }
+      notifyListeners();
+    }));
+  }
   RouteStatus _routeStatus = RouteStatus.home;
 
   var pages = <MaterialPage>[];
@@ -67,27 +76,13 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     if (currentRouteStatus == RouteStatus.home) {
       //跳转首页时将栈中的其他页面都出栈, 因为首页不能出栈
       pages.clear();
-      page = pageWrap(HomePage(
-        onJumpToDatail: (VideoModel value) {
-          videoModel = value;
-          notifyListeners();
-        },
-      ));
+      page = pageWrap(HomePage());
     } else if (currentRouteStatus == RouteStatus.detail) {
       page = pageWrap(VideoDetailPage(videoModel: videoModel!));
     } else if (currentRouteStatus == RouteStatus.registration) {
-      page = pageWrap(RegistrationPage(onJumpToLogin: () {
-        _routeStatus = RouteStatus.login;
-        notifyListeners();
-      }));
+      page = pageWrap(RegistrationPage());
     } else if (currentRouteStatus == RouteStatus.login) {
-      page = pageWrap(LoginPage(onSuccess: () {
-        _routeStatus = RouteStatus.home;
-        notifyListeners();
-      }, onJumpRegistration: () {
-        _routeStatus = RouteStatus.registration;
-        notifyListeners();
-      }));
+      page = pageWrap(LoginPage());
     }
 
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
