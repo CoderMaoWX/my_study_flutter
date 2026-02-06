@@ -17,18 +17,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('首页'),
         backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: Container(
         child: Column(
           children: [
-            Text('首页'),
+            Text('首页信息'),
             MaterialButton(
               onPressed: () {
                 HiNavigator.getInstance().onJump(RouteStatus.detail,
                     args: {"videoMo": VideoModel(111)});
               },
-              child: Text('详情'),
+              child: Text('进入详情'),
             )
           ],
         ),

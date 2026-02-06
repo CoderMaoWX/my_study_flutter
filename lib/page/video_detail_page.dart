@@ -17,7 +17,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
       appBar: AppBar(
         title: const Text('视频详情'),
         backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: Container(
         child: Text('视频详情页, vid: ${widget.videoModel.vid}'),

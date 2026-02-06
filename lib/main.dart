@@ -6,6 +6,7 @@ import 'package:my_study_flutter/page/home_page.dart';
 import 'package:my_study_flutter/page/login_page.dart';
 import 'package:my_study_flutter/page/registration_page.dart';
 import 'package:my_study_flutter/page/video_detail_page.dart';
+import 'package:my_study_flutter/util/color.dart';
 import 'package:my_study_flutter/util/toast.dart';
 
 import 'db/hi_cache.dart';
@@ -34,7 +35,7 @@ class _BiliAppState extends State<BiliApp> {
               : Scaffold(body: Center(child: CircularProgressIndicator()));
           return MaterialApp(
             home: widget,
-            theme: ThemeData(primaryColor: Colors.blue),
+            theme: ThemeData(primaryColor: white),
           );
         });
   }
@@ -55,6 +56,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       notifyListeners();
     }));
   }
+
   RouteStatus _routeStatus = RouteStatus.home;
 
   var pages = <MaterialPage>[];
@@ -87,6 +89,8 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
 
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
     tempPages = [...tempPages, page];
+    //通知路由发生变化
+    HiNavigator.getInstance().notify(tempPages, pages);
     pages = tempPages;
 
     return WillPopScope(
@@ -107,7 +111,9 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
             if (!route.didPop(result)) {
               return false;
             }
+            var tempPages = [...pages];
             pages.removeLast();
+            HiNavigator.getInstance().notify(pages, tempPages);
             return true;
           },
         ));
