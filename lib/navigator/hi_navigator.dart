@@ -55,6 +55,8 @@ class HiNavigator extends _RouteJumpListener {
   RouteJumpListener? _jumpListener;
   List<RouteChangeListener> _listener = [];
   RouteStatusInfo? _current;
+  //首页底部tab
+  RouteStatusInfo? _bottomTab;
 
   HiNavigator._();
 
@@ -70,6 +72,12 @@ class HiNavigator extends _RouteJumpListener {
   @override
   void onJump(RouteStatus routeStatus, {Map? args}) {
     _jumpListener?.onJumpTo(routeStatus, args: args);
+  }
+
+  ///首页底部tab切换监听
+  void onBottomTabChange(int index, Widget page) {
+    _bottomTab = RouteStatusInfo(RouteStatus.home, page);
+    _notify(_bottomTab!);
   }
 
   void addListener(RouteChangeListener listener) {

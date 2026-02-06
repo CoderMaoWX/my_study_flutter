@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_study_flutter/http/dao/login_dao.dart';
 import 'package:my_study_flutter/model/video_model.dart';
 import 'package:my_study_flutter/navigator/hi_navigator.dart';
-import 'package:my_study_flutter/page/home_page.dart';
 import 'package:my_study_flutter/page/login_page.dart';
 import 'package:my_study_flutter/page/registration_page.dart';
 import 'package:my_study_flutter/page/video_detail_page.dart';
@@ -10,6 +9,7 @@ import 'package:my_study_flutter/util/color.dart';
 import 'package:my_study_flutter/util/toast.dart';
 
 import 'db/hi_cache.dart';
+import 'navigator/bottom_navigator.dart';
 
 void main() {
   runApp(BiliApp());
@@ -78,7 +78,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     if (currentRouteStatus == RouteStatus.home) {
       //跳转首页时将栈中的其他页面都出栈, 因为首页不能出栈
       pages.clear();
-      page = pageWrap(HomePage());
+      page = pageWrap(BottomNavigator());
     } else if (currentRouteStatus == RouteStatus.detail) {
       page = pageWrap(VideoDetailPage(videoModel: videoModel!));
     } else if (currentRouteStatus == RouteStatus.registration) {
