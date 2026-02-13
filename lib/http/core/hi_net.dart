@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:my_study_flutter/http/core/dio_adapter.dart';
 import 'package:my_study_flutter/http/core/hi_error.dart';
 import 'package:my_study_flutter/http/core/ni_net_adapter.dart';
@@ -57,6 +58,13 @@ class HiNet {
   }
 
   void printLog(log) {
-    print("网络请求 ${log.toString()}");
+    const chunkSize = 800;
+    for (var i = 0; i < log.length; i += chunkSize) {
+      debugPrint(log.substring(
+        i,
+        i + chunkSize > log.length ? log.length : i + chunkSize,
+      ));
+    }
+    // debugPrint("网络请求 ${log.toString()}");
   }
 }

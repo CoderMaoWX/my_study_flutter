@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_study_flutter/navigator/bottom_navigator.dart';
 
-import '../page/home_page.dart';
 import '../page/login_page.dart';
 import '../page/registration_page.dart';
 import '../page/video_detail_page.dart';
@@ -32,7 +32,7 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.login;
   } else if (page.child is RegistrationPage) {
     return RouteStatus.registration;
-  } else if (page.child is HomePage) {
+  } else if (page.child is BottomNavigator) {
     return RouteStatus.home;
   } else if (page.child is VideoDetailPage) {
     return RouteStatus.detail;
@@ -70,7 +70,7 @@ class HiNavigator extends _RouteJumpListener {
   }
 
   @override
-  void onJump(RouteStatus routeStatus, {Map? args}) {
+  void onJumpTo(RouteStatus routeStatus, {Map? args}) {
     _jumpListener?.onJumpTo(routeStatus, args: args);
   }
 
@@ -98,18 +98,23 @@ class HiNavigator extends _RouteJumpListener {
   }
 
   void _notify(RouteStatusInfo current) {
+    if (current.page is BottomNavigator && _bottomTab != null) {
+      //如果打开的是首页，则明确到首页具体的tab
+      current = _bottomTab!;
+    }
+
     print('导航器：当前页面：${current.page}');
     print('导航器：上一个页面：${_current?.page}');
 
-    _listener.forEach((listener) {
+    for (var listener in _listener) {
       listener(current, _current);
-    });
+    }
     _current = current;
   }
 }
 
 abstract class _RouteJumpListener {
-  void onJump(RouteStatus routeStatus, {Map args});
+  void onJumpTo(RouteStatus routeStatus, {Map args});
 }
 
 typedef OnJumpTo = void Function(RouteStatus routeStatus, {Map? args});

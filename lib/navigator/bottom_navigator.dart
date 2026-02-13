@@ -20,17 +20,40 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   int _currentIndex = 0;
   final PageController _controller = PageController(initialPage: 0);
   late List<Widget> _pages;
+  bool _hasBuild = false;
 
   @override
   Widget build(BuildContext context) {
-    _pages = [HomePage(), RankingPage(), FavoritePage(), ProfilePage()];
+    _pages = [
+      HomePage(
+        onHeaderJumpTo: (index) => _onJumpTo(index, pageChange: false),
+      ),
+      RankingPage(),
+      FavoritePage(),
+      ProfilePage()
+    ];
+    if (!_hasBuild) {
+      //页面第一次打开时通知打开的是那个tab
+      HiNavigator.getInstance()
+          .onBottomTabChange(_currentIndex, _pages[_currentIndex]);
+      _hasBuild = true;
+    }
+
     return Scaffold(
       body: PageView(
         controller: _controller,
-        children: _pages,
         onPageChanged: (index) => _onJumpTo(index, pageChange: true),
+        physics: NeverScrollableScrollPhysics(),
+        children: _pages,
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+        ),
+        //把 BottomNavigationBar 用 Theme 包裹并设置 splashFactory 为 NoSplash.splashFactory，同时把 highlightColor/splashColor 设为 Colors.transparent，即可去掉点击时的水波纹效果。
+        child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) => _onJumpTo(index),
           type: BottomNavigationBarType.fixed,
@@ -40,7 +63,9 @@ class _BottomNavigatorState extends State<BottomNavigator> {
             _bottomItem("排行", Icons.local_fire_department, 1),
             _bottomItem("收藏", Icons.favorite, 2),
             _bottomItem("我的", Icons.live_tv, 3),
-          ]),
+          ],
+        ),
+      ),
     );
   }
 
@@ -53,6 +78,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
 
   void _onJumpTo(int index, {pageChange = false}) {
     if (!pageChange) {
+      //让PageView展示对应tab
       _controller.jumpToPage(index);
     } else {
       HiNavigator.getInstance().onBottomTabChange(index, _pages[index]);

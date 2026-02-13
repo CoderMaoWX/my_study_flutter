@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar("密码登录", "注册", () {
-        HiNavigator.getInstance().onJump(RouteStatus.registration);
+        HiNavigator.getInstance().onJumpTo(RouteStatus.registration);
       }),
       body: Container(
         child: ListView(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       if (result["code"] == 0) {
         print("登录成功");
         showToast("登录成功");
-        HiNavigator.getInstance().onJump(RouteStatus.home);
+        HiNavigator.getInstance().onJumpTo(RouteStatus.home);
       } else {
         print(result);
         showWarnToast(result["msg"]);
